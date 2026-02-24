@@ -1,5 +1,9 @@
 package com.xhomes;
 
+import co.aikar.commands.PaperCommandManager;
+import com.xhomes.command.DelHomeCommand;
+import com.xhomes.command.HomeCommand;
+import com.xhomes.command.SetHomeCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -24,16 +28,23 @@ import org.bukkit.plugin.java.JavaPlugin;
  * along with this software. If not, see <https://www.gnu.org/licenses/>.
  */
 public class Xhomes extends JavaPlugin {
+
     private HomeManager homeManager;
+    private PaperCommandManager commandManager;
 
     @Override
     public void onEnable() {
         homeManager = new HomeManager(this);
-        getCommand("sethome").setExecutor(new SetHomeCommand(homeManager, this));
-        getCommand("home").setExecutor(new HomeCommand(homeManager));
-        getCommand("delhome").setExecutor(new DelHomeCommand(homeManager));
+        registerCommands();
         getServer().getPluginManager().registerEvents(new HomeListener(homeManager), this);
         getLogger().info("Xhomes has been enabled!");
+    }
+
+    private void registerCommands() {
+        commandManager = new PaperCommandManager(this);
+        commandManager.registerCommand(new HomeCommand(homeManager));
+        commandManager.registerCommand(new SetHomeCommand(homeManager, this));
+        commandManager.registerCommand(new DelHomeCommand(homeManager));
     }
 
     public HomeManager getHomeManager() {

@@ -1,5 +1,13 @@
-package com.xhomes;
+package com.xhomes.command;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Optional;
+import com.xhomes.HomeManager;
+import com.xhomes.Xhomes;
+import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +17,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetHomeCommand implements CommandExecutor {
+@CommandAlias("sethome")
+@CommandPermission("xhomes.sethome")
+public class SetHomeCommand extends BaseCommand {
+
     private final HomeManager homeManager;
     private final Xhomes plugin;
 
@@ -18,49 +29,38 @@ public class SetHomeCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can set homes.");
-            return true;
-        }
-
-        Player player = (Player) sender;
-
-        if (args.length != 1) {
-            player.sendMessage("Usage: /sethome [homename]");
-            return true;
-        }
-
-        String homeName = args[0];
-        Location location = player.getLocation();
-        String playerName = player.getName();
+    @Default
+    public boolean onCommand(Player sender, @Optional String home) {
+        Location location = sender.getLocation();
+        String playerName = sender.getName();
 
         // Get the player's home names
         List<String> playerHomes = new ArrayList<>(homeManager.getHomes(playerName).keySet());
 
         // Get the maximum homes limit from the config
-        int maxHomes = getMaxHomesForPlayer(player);
+        int maxHomes = getMaxHomesForPlayer(sender);
         if (maxHomes == -1) {
-            player.sendMessage("You do not have permission to set homes.");
+            sender.sendMessage("You do not have permission to set homes.");
             return true;
         }
 
         // Check if the home name already exists
-        if (playerHomes.contains(homeName)) {
-            player.sendMessage("A home with the name '" + homeName + "' already exists. Please choose a different name.");
+        if (playerHomes.contains(home)) {
+            sender.sendMessage(ColorParser.of("A home with the name '<home>' already exists. Please choose a different name.")
+                    .with("home", home).legacy().build());
             return true;
         }
 
         // Check if the player has reached their max home limit
         if (playerHomes.size() >= maxHomes) {
-            player.sendMessage("You have reached your home limit of " + maxHomes + " homes.");
+            sender.sendMessage(ColorParser.of("You have reached your home limit of <max_homes> homes.")
+                    .with("max_homes", String.valueOf(maxHomes)).legacy().build());
             return true;
         }
 
         // Add the home
-        homeManager.addHome(playerName, homeName, location);
-        player.sendMessage("Home '" + homeName + "' set at your current location.");
+        homeManager.addHome(playerName, home, location);
+        sender.sendMessage(ColorParser.of("Home '<home>' set at your current location.").with("home", home).legacy().build());
         return true;
     }
 

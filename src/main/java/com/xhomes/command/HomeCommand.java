@@ -1,5 +1,12 @@
-package com.xhomes;
+package com.xhomes.command;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Optional;
+import com.xhomes.HomeManager;
+import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location; 
 import org.bukkit.Material;
@@ -15,30 +22,26 @@ import org.bukkit.scheduler.BukkitRunnable; // Import this class
 import java.util.List;
 import java.util.Map;
 
-public class HomeCommand implements CommandExecutor {
+@CommandAlias("home|homes")
+@CommandPermission("xhomes.home")
+public class HomeCommand extends BaseCommand {
+
     private final HomeManager homeManager;
 
     public HomeCommand(HomeManager homeManager) {
         this.homeManager = homeManager;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can view their homes.");
-            return true;
-        }
-
-        Player player = (Player) sender;
-
+    @Default
+    public boolean onCommand(Player sender, @Optional String home) {
         // Check if an optional home name is provided
-        if (args.length == 1) {
-            String homeName = args[0];
-            Location homeLocation = homeManager.getHomes(player.getName()).get(homeName);
+        if (home != null) {
+            Location homeLocation = homeManager.getHomes(sender.getName()).get(home);
             if (homeLocation != null) {
-                startTeleportCountdown(player, homeLocation);
+                startTeleportCountdown(sender, homeLocation);
             } else {
-                player.sendMessage("Home '" + homeName + "' does not exist.");
+                sender.sendMessage(ColorParser.of("Home '<home>' does not exist.")
+                        .with("home", home).legacy().build());
             }
             return true;
         }
@@ -46,7 +49,7 @@ public class HomeCommand implements CommandExecutor {
         // If no home name is provided, show the home selection inventory
         Inventory inv = Bukkit.createInventory(null, 27, "Select Home");
 
-        Map<String, Location> homes = homeManager.getHomes(player.getName());
+        Map<String, Location> homes = homeManager.getHomes(sender.getName());
 
         int slot = 9;
         for (String homeName : homes.keySet()) {
@@ -63,7 +66,7 @@ public class HomeCommand implements CommandExecutor {
 
         inv.setItem(26, new ItemStack(Material.BARRIER));
 
-        player.openInventory(inv);
+        sender.openInventory(inv);
         return true;
     }
 
