@@ -37,6 +37,11 @@ public class SetHomeCommand extends BaseCommand {
         // Get the player's home names
         List<String> playerHomes = new ArrayList<>(homeManager.getHomes(playerName).keySet());
 
+        if (home == null) {
+            int homeNumber = playerHomes.size() + 1;
+            home = "Home#" + homeNumber;
+        }
+
         // Get the maximum homes limit from the config
         int maxHomes = getMaxHomesForPlayer(sender);
         if (maxHomes == -1) {
