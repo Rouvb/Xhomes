@@ -1,5 +1,6 @@
-package com.xhomes;
+package com.xhomes.manager;
 
+import com.xhomes.Xhomes;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

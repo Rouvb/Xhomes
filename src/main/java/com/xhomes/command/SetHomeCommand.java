@@ -5,13 +5,10 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Optional;
-import com.xhomes.HomeManager;
+import com.xhomes.manager.HomeManager;
 import com.xhomes.Xhomes;
 import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

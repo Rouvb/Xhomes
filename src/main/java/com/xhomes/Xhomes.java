@@ -4,6 +4,8 @@ import co.aikar.commands.PaperCommandManager;
 import com.xhomes.command.DelHomeCommand;
 import com.xhomes.command.HomeCommand;
 import com.xhomes.command.SetHomeCommand;
+import com.xhomes.listener.HomeListener;
+import com.xhomes.manager.HomeManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**

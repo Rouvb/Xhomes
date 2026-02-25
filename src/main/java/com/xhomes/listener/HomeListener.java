@@ -1,12 +1,12 @@
-package com.xhomes;
+package com.xhomes.listener;
 
+import com.xhomes.manager.HomeManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HomeListener implements Listener {
