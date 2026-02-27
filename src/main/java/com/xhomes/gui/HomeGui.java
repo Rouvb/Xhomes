@@ -32,6 +32,8 @@ public class HomeGui {
                 .setStructure(
                         "# # # # # # # # #",
                         "# x x x x x x x #",
+                        "# x x x x x x x #",
+                        "# x x x x x x x #",
                         "# # < # # # > # #")
                 .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
                 .addIngredient('#', border)
