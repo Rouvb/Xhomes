@@ -29,10 +29,9 @@ public class SetHomeCommand extends BaseCommand {
     @Default
     public boolean onCommand(Player sender, @Optional String home) {
         Location location = sender.getLocation();
-        String playerName = sender.getName();
 
         // Get the player's home names
-        List<String> playerHomes = new ArrayList<>(homeManager.getHomes(playerName).keySet());
+        List<String> playerHomes = new ArrayList<>(homeManager.getHomes(sender.getUniqueId()).keySet());
 
         if (home == null) {
             int homeNumber = playerHomes.size() + 1;
@@ -61,7 +60,7 @@ public class SetHomeCommand extends BaseCommand {
         }
 
         // Add the home
-        homeManager.addHome(playerName, home, location);
+        homeManager.addHome(sender.getUniqueId(), home, location);
         sender.sendMessage(ColorParser.of("Home '<home>' set at your current location.").with("home", home).legacy().build());
         return true;
     }

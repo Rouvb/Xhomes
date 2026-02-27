@@ -21,13 +21,13 @@ public class DelHomeCommand extends BaseCommand {
     @Default
     public boolean onCommand(Player sender, String home) {
         // Check if the home exists
-        if (!homeManager.getHomes(sender.getName()).containsKey(home)) {
+        if (!homeManager.getHomes(sender.getUniqueId()).containsKey(home)) {
             sender.sendMessage(ColorParser.of("&cHome '<home>' not found in your data.").with("home", home).legacy().build());
             return true;
         }
 
         // Remove the home
-        homeManager.removeHome(sender.getName(), home);
+        homeManager.removeHome(sender.getUniqueId(), home);
         sender.sendMessage(ColorParser.of("&cHome '<home>' deleted.").legacy().with("home", home).build());
         return true;
     }

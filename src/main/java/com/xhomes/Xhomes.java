@@ -36,17 +36,25 @@ public class Xhomes extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        homeManager = new HomeManager(this);
+        registerManagers();
         registerCommands();
-        getServer().getPluginManager().registerEvents(new HomeListener(homeManager), this);
+        registerListeners();
         getLogger().info("Xhomes has been enabled!");
+    }
+
+    private void registerManagers() {
+        homeManager = new HomeManager(this);
     }
 
     private void registerCommands() {
         commandManager = new PaperCommandManager(this);
-        commandManager.registerCommand(new HomeCommand(homeManager));
+        commandManager.registerCommand(new HomeCommand(this, homeManager));
         commandManager.registerCommand(new SetHomeCommand(homeManager, this));
         commandManager.registerCommand(new DelHomeCommand(homeManager));
+    }
+
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new HomeListener(this, homeManager), this);
     }
 
     public HomeManager getHomeManager() {

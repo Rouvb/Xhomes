@@ -25,10 +25,14 @@
             <id>aikar</id>
             <url>https://repo.aikar.co/content/groups/aikar/</url>
         </repository>
+        <repository>
+            <id>xenondevs</id>
+            <url>https://repo.xenondevs.xyz/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
-        <!-- This adds the Paper API artifact to the build -->
+        <!-- Paper API -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -43,10 +47,19 @@
             <version>0.5.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- Color Parser -->
         <dependency>
             <groupId>io.github.milkdrinkers</groupId>
             <artifactId>colorparser-paper</artifactId>
             <version>4.1.0</version>
+        </dependency>
+
+        <!-- GUI API -->
+        <dependency>
+            <groupId>xyz.xenondevs.invui</groupId>
+            <artifactId>invui</artifactId>
+            <version>1.49</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
 
